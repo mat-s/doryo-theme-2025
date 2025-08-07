@@ -1,0 +1,23 @@
+extends:
+  - stylelint-config-standard-scss
+  - stylelint-config-prettier-scss
+
+rules:
+  # WordPress specific rules
+  indentation: 2
+  max-line-length: 120
+  string-quotes: single
+  
+  # SCSS specific
+  scss/at-rule-no-unknown: null
+  scss/dollar-variable-pattern: ^[a-z][a-zA-Z0-9]*$
+  
+  # Allow WordPress prefixes
+  selector-class-pattern: null
+  
+  # Custom property pattern for CSS variables
+  custom-property-pattern: ^[a-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$
+
+ignoreFiles:
+  - 'dist/**/*'
+  - 'node_modules/**/*'

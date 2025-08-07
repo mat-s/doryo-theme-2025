@@ -1,0 +1,60 @@
+// Default theme styles
+.theme-default {
+  // Theme-specific overrides go here
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-white: #1a1a1a;
+    --color-gray-100: #2d2d2d;
+    --color-gray-200: #404040;
+    --color-gray-300: #525252;
+    --color-gray-400: #6b7280;
+    --color-gray-500: #9ca3af;
+    --color-gray-600: #d1d5db;
+    --color-gray-700: #e5e7eb;
+    --color-gray-800: #f3f4f6;
+    --color-gray-900: #ffffff;
+    --color-black: #ffffff;
+  }
+  
+  body {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  :root {
+    --color-primary: #0066cc;
+    --color-primary-dark: #004499;
+    --shadow-base: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 20px 0 rgba(0, 0, 0, 0.4);
+  }
+  
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .form-control {
+    border: 2px solid var(--color-gray-400);
+    
+    &:focus {
+      border-width: 3px;
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

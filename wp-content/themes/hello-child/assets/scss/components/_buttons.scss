@@ -1,0 +1,105 @@
+// Button base styles
+.btn {
+  @include button-style;
+  
+  &--primary {
+    @include button-style(var(--color-primary), var(--color-white));
+  }
+  
+  &--secondary {
+    @include button-style(var(--color-secondary), var(--color-white));
+  }
+  
+  &--outline-primary {
+    @include button-style(transparent, var(--color-primary));
+    border: 2px solid var(--color-primary);
+    
+    &:hover {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+  }
+  
+  &--outline-secondary {
+    @include button-style(transparent, var(--color-secondary));
+    border: 2px solid var(--color-secondary);
+    
+    &:hover {
+      background-color: var(--color-secondary);
+      color: var(--color-white);
+    }
+  }
+  
+  &--success {
+    @include button-style(var(--color-success), var(--color-white));
+  }
+  
+  &--warning {
+    @include button-style(var(--color-warning), var(--color-gray-900));
+  }
+  
+  &--error {
+    @include button-style(var(--color-error), var(--color-white));
+  }
+  
+  // Sizes
+  &--small {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  &--large {
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    font-size: var(--font-size-lg);
+  }
+  
+  // States
+  &:loading {
+    position: relative;
+    color: transparent;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// WordPress specific button classes
+.wp-element-button {
+  @include button-style(var(--color-primary), var(--color-white));
+}
+
+.wp-block-button {
+  .wp-block-button__link {
+    @include button-style;
+  }
+  
+  &.is-style-outline {
+    .wp-block-button__link {
+      @include button-style(transparent, var(--color-primary));
+      border: 2px solid var(--color-primary);
+      
+      &:hover {
+        background-color: var(--color-primary);
+        color: var(--color-white);
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+.site-footer {
+  background-color: var(--color-gray-900);
+  color: var(--color-white);
+  margin-top: auto;
+  
+  .footer-container {
+    @include container;
+    padding-top: var(--spacing-4xl);
+    padding-bottom: var(--spacing-2xl);
+  }
+  
+  .footer-widgets {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-3xl);
+    
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  .footer-widget {
+    h3 {
+      color: var(--color-white);
+      margin-bottom: var(--spacing-lg);
+      font-size: var(--font-size-lg);
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        margin-bottom: var(--spacing-sm);
+        
+        a {
+          color: var(--color-gray-300);
+          
+          &:hover {
+            color: var(--color-white);
+          }
+        }
+      }
+    }
+    
+    p {
+      color: var(--color-gray-300);
+      line-height: var(--line-height-relaxed);
+    }
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid var(--color-gray-700);
+    padding-top: var(--spacing-xl);
+    text-align: center;
+    
+    @include respond-to('tablet') {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+    }
+    
+    .copyright {
+      color: var(--color-gray-400);
+      font-size: var(--font-size-sm);
+      
+      @include respond-to('tablet') {
+        margin-bottom: 0;
+      }
+    }
+    
+    .footer-social {
+      margin-top: var(--spacing-base);
+      
+      @include respond-to('tablet') {
+        margin-top: 0;
+      }
+      
+      a {
+        display: inline-block;
+        margin: 0 var(--spacing-sm);
+        color: var(--color-gray-400);
+        font-size: var(--font-size-xl);
+        transition: var(--transition-fast);
+        
+        &:hover {
+          color: var(--color-primary);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}

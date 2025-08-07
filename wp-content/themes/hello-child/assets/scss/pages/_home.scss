@@ -1,0 +1,106 @@
+// Home page specific styles
+.home {
+  .hero-section {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: var(--color-white);
+    padding: var(--spacing-5xl) 0;
+    text-align: center;
+    
+    @include respond-to('tablet') {
+      padding: var(--spacing-6xl) 0;
+    }
+    
+    h1 {
+      color: var(--color-white);
+      margin-bottom: var(--spacing-xl);
+      @include fade-in(0.6s);
+    }
+    
+    .hero-description {
+      font-size: var(--font-size-lg);
+      margin-bottom: var(--spacing-2xl);
+      opacity: 0.9;
+      @include slide-up(0.8s, 30px);
+    }
+    
+    .hero-cta {
+      @include slide-up(1s, 40px);
+    }
+  }
+  
+  .features-section {
+    padding: var(--spacing-5xl) 0;
+    background-color: var(--color-gray-50);
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: var(--spacing-4xl);
+    }
+    
+    .features-grid {
+      @extend .card-grid--3-cols;
+      
+      .feature-item {
+        text-align: center;
+        padding: var(--spacing-2xl);
+        
+        .feature-icon {
+          width: 4rem;
+          height: 4rem;
+          margin: 0 auto var(--spacing-lg);
+          background-color: var(--color-primary);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--color-white);
+          font-size: var(--font-size-2xl);
+        }
+        
+        h3 {
+          margin-bottom: var(--spacing-base);
+        }
+      }
+    }
+  }
+  
+  .testimonials-section {
+    padding: var(--spacing-5xl) 0;
+    
+    .testimonial {
+      @include card-style(var(--spacing-2xl));
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+      
+      .testimonial-content {
+        font-size: var(--font-size-lg);
+        font-style: italic;
+        margin-bottom: var(--spacing-xl);
+      }
+      
+      .testimonial-author {
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-primary);
+      }
+    }
+  }
+  
+  .cta-section {
+    background-color: var(--color-gray-900);
+    color: var(--color-white);
+    padding: var(--spacing-5xl) 0;
+    text-align: center;
+    
+    h2 {
+      color: var(--color-white);
+      margin-bottom: var(--spacing-base);
+    }
+    
+    .cta-description {
+      font-size: var(--font-size-lg);
+      margin-bottom: var(--spacing-2xl);
+      opacity: 0.9;
+    }
+  }
+}

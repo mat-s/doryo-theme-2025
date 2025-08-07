@@ -1,0 +1,40 @@
+.site-header {
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: z('sticky');
+  
+  .header-container {
+    @include container;
+    @include flex-between;
+    padding-top: var(--spacing-base);
+    padding-bottom: var(--spacing-base);
+    
+    @include respond-to('tablet') {
+      padding-top: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+    }
+  }
+  
+  .site-branding {
+    display: flex;
+    align-items: center;
+    
+    .site-logo {
+      max-height: 40px;
+      width: auto;
+      
+      @include respond-to('tablet') {
+        max-height: 50px;
+      }
+    }
+    
+    .site-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary);
+      margin-left: var(--spacing-base);
+    }
+  }
+}

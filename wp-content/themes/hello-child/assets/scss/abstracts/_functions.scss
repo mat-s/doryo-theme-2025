@@ -1,0 +1,75 @@
+// Math functions
+@function pow($base, $exponent) {
+  $result: 1;
+  @for $_ from 1 through $exponent {
+    $result: $result * $base;
+  }
+  @return $result;
+}
+
+@function sqrt($number) {
+  $x0: 1;
+  $x1: $x0;
+  
+  @for $_ from 1 through 10 {
+    $x1: ($x0 + $number / $x0) / 2;
+    $x0: $x1;
+  }
+  
+  @return $x1;
+}
+
+// Unit conversion functions
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  
+  @return $number;
+}
+
+@function px-to-rem($px-value, $base-font-size: 16px) {
+  @return (strip-unit($px-value) / strip-unit($base-font-size)) * 1rem;
+}
+
+@function rem-to-px($rem-value, $base-font-size: 16px) {
+  @return strip-unit($rem-value) * strip-unit($base-font-size) * 1px;
+}
+
+// Color functions
+@function get-color($color-name, $variant: 'base') {
+  @if $variant == 'base' {
+    @return var(--color-#{$color-name});
+  } @else {
+    @return var(--color-#{$color-name}-#{$variant});
+  }
+}
+
+@function alpha($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+// Spacing functions
+@function spacing($multiplier: 1) {
+  @return calc(var(--spacing-base) * #{$multiplier});
+}
+
+// Grid functions
+@function grid-width($columns, $total-columns: 12) {
+  @return percentage($columns / $total-columns);
+}
+
+// Z-index function
+@function z($layer) {
+  @return var(--z-#{$layer});
+}
+
+// Breakpoint function
+@function breakpoint($bp) {
+  @if map-has-key($breakpoints, $bp) {
+    @return map-get($breakpoints, $bp);
+  } @else {
+    @warn "Unknown breakpoint: #{$bp}";
+    @return null;
+  }
+}

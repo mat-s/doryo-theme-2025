@@ -1,0 +1,156 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z('modal');
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-base);
+  
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    
+    .modal-dialog {
+      transform: scale(1);
+    }
+  }
+  
+  &-dialog {
+    position: relative;
+    width: auto;
+    max-width: 500px;
+    margin: var(--spacing-xl) auto;
+    padding: 0 var(--spacing-base);
+    transform: scale(0.9);
+    transition: var(--transition-base);
+    
+    @include respond-to('tablet') {
+      margin: var(--spacing-4xl) auto;
+      padding: 0;
+    }
+  }
+  
+  &-content {
+    position: relative;
+    background-color: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-2xl);
+    outline: 0;
+  }
+  
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    
+    h4,
+    h5 {
+      margin: 0;
+      line-height: var(--line-height-tight);
+    }
+  }
+  
+  &-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: var(--spacing-xl);
+  }
+  
+  &-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-base);
+    padding: var(--spacing-base) var(--spacing-xl) var(--spacing-xl);
+    border-top: 1px solid var(--color-gray-200);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  }
+  
+  &-close {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    border: none;
+    border-radius: var(--radius-base);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
+    
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1rem;
+      height: 2px;
+      background-color: var(--color-gray-600);
+    }
+    
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+  
+  // Size variations
+  &--small {
+    .modal-dialog {
+      max-width: 300px;
+    }
+  }
+  
+  &--large {
+    .modal-dialog {
+      max-width: 800px;
+    }
+  }
+  
+  &--xl {
+    .modal-dialog {
+      max-width: 1140px;
+    }
+  }
+  
+  &--fullscreen {
+    .modal-dialog {
+      width: 100vw;
+      max-width: none;
+      height: 100vh;
+      margin: 0;
+      
+      .modal-content {
+        height: 100vh;
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+// Modal backdrop (for when modal is triggered by JavaScript)
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: z('modal-backdrop');
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}

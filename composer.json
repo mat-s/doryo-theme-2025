@@ -1,0 +1,52 @@
+{
+  "name": "company/wordpress-docker-boilerplate",
+  "description": "Modern WordPress development setup with Docker, Vite, and TypeScript",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+    "composer/installers": "^2.0",
+    "wpackagist-theme/hello-elementor": "^3.0",
+    "wpackagist-plugin/classic-editor": "^1.6",
+    "wpackagist-plugin/duplicate-post": "^4.5",
+    "wpackagist-plugin/enable-media-replace": "^4.0",
+    "wpackagist-plugin/post-types-order": "^2.0",
+    "wpackagist-plugin/regenerate-thumbnails": "^3.1",
+    "wpackagist-plugin/simple-revisions-delete": "^1.5.4",
+    "wpackagist-plugin/wordpress-seo": "^21.0"
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpunit/phpunit": "^9.0",
+    "squizlabs/php_codesniffer": "^3.7"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org",
+      "only": ["wpackagist-plugin/*", "wpackagist-theme/*"]
+    }
+  ],
+  "extra": {
+    "installer-paths": {
+      "wp-content/plugins/{$name}/": ["type:wordpress-plugin"],
+      "wp-content/themes/{$name}/": ["type:wordpress-theme"]
+    },
+    "wordpress-install-dir": "wp"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@php -r \"if (!file_exists('wp-content/themes/hello-child')) { mkdir('wp-content/themes/hello-child', 0755, true); }\""
+    ],
+    "phpcs": "phpcs --standard=WordPress wp-content/themes/hello-child",
+    "phpcbf": "phpcbf --standard=WordPress wp-content/themes/hello-child",
+    "test": "phpunit"
+  }
+}

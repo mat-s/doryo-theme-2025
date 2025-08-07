@@ -1,0 +1,90 @@
+// About page specific styles
+.page-template-about {
+  .about-hero {
+    background-color: var(--color-gray-100);
+    padding: var(--spacing-4xl) 0;
+    
+    .hero-content {
+      @include container;
+      text-align: center;
+    }
+  }
+  
+  .team-section {
+    padding: var(--spacing-5xl) 0;
+    
+    .team-grid {
+      @extend .card-grid--3-cols;
+      
+      .team-member {
+        @include card-style;
+        text-align: center;
+        
+        .member-photo {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          margin: 0 auto var(--spacing-lg);
+          object-fit: cover;
+        }
+        
+        .member-name {
+          font-size: var(--font-size-xl);
+          font-weight: var(--font-weight-semibold);
+          margin-bottom: var(--spacing-xs);
+        }
+        
+        .member-role {
+          color: var(--color-primary);
+          font-weight: var(--font-weight-medium);
+          margin-bottom: var(--spacing-base);
+        }
+        
+        .member-bio {
+          font-size: var(--font-size-sm);
+          color: var(--color-gray-600);
+        }
+      }
+    }
+  }
+  
+  .values-section {
+    background-color: var(--color-gray-50);
+    padding: var(--spacing-5xl) 0;
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+      
+      @include respond-to('tablet') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .value-item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--spacing-lg);
+        
+        .value-icon {
+          flex-shrink: 0;
+          width: 3rem;
+          height: 3rem;
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          border-radius: var(--radius-lg);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--font-size-xl);
+        }
+        
+        .value-content {
+          h3 {
+            margin-bottom: var(--spacing-sm);
+          }
+        }
+      }
+    }
+  }
+}

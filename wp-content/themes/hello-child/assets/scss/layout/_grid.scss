@@ -1,0 +1,109 @@
+// Container system
+.container {
+  @include container;
+}
+
+.container-fluid {
+  width: 100%;
+  padding-left: var(--spacing-base);
+  padding-right: var(--spacing-base);
+  
+  @include respond-to('tablet') {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+  }
+}
+
+// Grid system
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--spacing-base) * -1);
+  margin-right: calc(var(--spacing-base) * -1);
+}
+
+.col {
+  flex: 1 0 0%;
+  padding-left: var(--spacing-base);
+  padding-right: var(--spacing-base);
+}
+
+// Column sizes
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    flex: 0 0 auto;
+    width: percentage($i / 12);
+    padding-left: var(--spacing-base);
+    padding-right: var(--spacing-base);
+  }
+}
+
+// Responsive columns
+@each $breakpoint, $width in $breakpoints {
+  @include respond-to($breakpoint) {
+    @for $i from 1 through 12 {
+      .col-#{$breakpoint}-#{$i} {
+        flex: 0 0 auto;
+        width: percentage($i / 12);
+      }
+    }
+  }
+}
+
+// Utilities
+.d-flex {
+  display: flex;
+}
+
+.d-grid {
+  display: grid;
+}
+
+.d-block {
+  display: block;
+}
+
+.d-none {
+  display: none;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Responsive display utilities
+@each $breakpoint, $width in $breakpoints {
+  @include respond-to($breakpoint) {
+    .d-#{$breakpoint}-none {
+      display: none;
+    }
+    
+    .d-#{$breakpoint}-block {
+      display: block;
+    }
+    
+    .d-#{$breakpoint}-flex {
+      display: flex;
+    }
+  }
+}

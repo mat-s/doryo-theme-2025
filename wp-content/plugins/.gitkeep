@@ -1,0 +1,2 @@
+# This file ensures the plugins directory is tracked by Git
+# Plugins will be installed via Composer or manually added

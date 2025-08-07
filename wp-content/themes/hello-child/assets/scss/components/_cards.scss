@@ -1,0 +1,108 @@
+.card {
+  @include card-style;
+  
+  &-header {
+    padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-base);
+    border-bottom: 1px solid var(--color-gray-200);
+    
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+      color: var(--color-gray-900);
+    }
+  }
+  
+  &-body {
+    padding: var(--spacing-xl);
+    flex: 1 1 auto;
+  }
+  
+  &-footer {
+    padding: var(--spacing-base) var(--spacing-xl) var(--spacing-lg);
+    border-top: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-50);
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    
+    @include flex-between;
+    
+    &:last-child {
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+  }
+  
+  &-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  
+  // Card variations
+  &--horizontal {
+    @include respond-to('tablet') {
+      display: flex;
+      
+      .card-image {
+        width: 40%;
+        height: auto;
+        border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+      }
+      
+      .card-content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+    }
+  }
+  
+  &--elevated {
+    box-shadow: var(--shadow-lg);
+    
+    &:hover {
+      box-shadow: var(--shadow-2xl);
+      transform: translateY(-4px);
+    }
+  }
+  
+  &--bordered {
+    border: 1px solid var(--color-gray-300);
+    box-shadow: none;
+    
+    &:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-base);
+    }
+  }
+}
+
+// Card grid
+.card-grid {
+  display: grid;
+  gap: var(--spacing-xl);
+  
+  &--2-cols {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &--3-cols {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  &--4-cols {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    
+    @include respond-to('wide') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
