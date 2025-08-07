@@ -16,10 +16,12 @@ services:
         define('WP_DEBUG_DISPLAY', false);
         define('SCRIPT_DEBUG', true);
         define('WP_ENVIRONMENT_TYPE', 'local');
+        define('WPML_LOAD_API_SUPPORT', true);  # ← Für WPML
     volumes:
       - ./wp-content:/var/www/html/wp-content
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./wp-config-extra.php:/var/www/html/wp-config-extra.php
+      - ./.htaccess:/var/www/html/.htaccess  # ← WPML .htaccess
     depends_on:
       - db
     networks:

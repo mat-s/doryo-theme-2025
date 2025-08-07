@@ -1,4 +1,4 @@
-# WordPress Core
+# WordPress Core (nicht versionieren)
 /wp-admin/
 /wp-includes/
 wp-*.php
@@ -13,14 +13,21 @@ wp-config.php
 wp-config-local.php
 wp-config-production.php
 
-# WordPress Content (keep themes and custom plugins)
+# WordPress Content - automatisch generierte Ordner
 /wp-content/uploads/
 /wp-content/upgrade/
+/wp-content/upgrade-temp-backup/    
 /wp-content/backup*/
 /wp-content/cache/
 /wp-content/backups/
+/wp-content/languages/              
+/wp-content/wflogs/                
+
+# WordPress Multisite
 /wp-content/blogs.dir/
-/wp-content/debug.log
+/wp-content/blog-deleted/
+/wp-content/blog-inactive/
+/wp-content/blog-suspended/
 
 # Keep only custom themes and plugins, ignore others
 /wp-content/plugins/*
@@ -28,19 +35,14 @@ wp-config-production.php
 /wp-content/themes/*
 !/wp-content/themes/hello-child/
 
-# Dependencies
-/vendor/
-/node_modules/
+# Theme Dependencies
 /wp-content/themes/hello-child/node_modules/
 /wp-content/themes/hello-child/dist/
-
-# Premium plugins (add these after manual installation)
-/wp-content/plugins/advanced-custom-fields-pro/
-/wp-content/plugins/elementor-pro/
-/wp-content/plugins/sitepress-multilingual-cms/
-/wp-content/plugins/wpml-*/
-/wp-content/plugins/real-cookie-banner/
-/wp-content/plugins/wp-migrate-db-pro/
+/wp-content/themes/hello-child/package-lock.json
+/wp-content/themes/hello-child/*.log
+# Composer
+/vendor/
+composer.lock
 
 # IDE/Editor files
 .vscode/
@@ -48,10 +50,8 @@ wp-config-production.php
 *.swp
 *.swo
 *~
-.sublime-project
-.sublime-workspace
 
-# OS generated files
+# OS Files
 .DS_Store
 .DS_Store?
 ._*
@@ -60,83 +60,14 @@ wp-config-production.php
 ehthumbs.db
 Thumbs.db
 
-# Build files
-*.map
-*.log
-dist/
-build/
-
-# Environment files
-.env
-.env.local
-.env.development
-.env.test
-.env.production
+# Environment
+.env*
 
 # Docker
-/.docker/
-/mysql-init/
-
-# Composer
-/composer.phar
-composer.lock
+.docker/
 
 # Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-debug.log
-error_log
-access.log
-
-# Temporary files
-tmp/
-temp/
-.cache/
-*.tmp
-*.temp
-
-# Database backups
-*.sql
-*.sqlite
-*.gz
-
-# Package managers
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# WordPress specific
-sitemap.xml
-sitemap.xml.gz
-wp-sitemap.xml
-robots.txt
-wp-content/advanced-cache.php
-wp-content/wp-cache-config.php
-
-# Security
-wp-content/debug.log
-error_log
-
-# Testing
-coverage/
-.nyc_output/
-phpunit.xml
-.phpunit.result.cache
-
-# WordPress Multisite
-wp-content/blog-deleted/
-wp-content/blog-inactive/
-wp-content/blog-suspended/
-
-# Backup files
-*.bak
-backup/
-backups/
-*.tar
-*.zip
-
-# Mac specific (zusätzlich)
-.AppleDouble
-.LSOverride
