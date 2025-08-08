@@ -5,7 +5,7 @@ declare global {
     jQuery: any;
     $: any;
     wp: any;
-    helloChild: {
+    doryoTheme: {
       ajaxUrl: string;
       nonce: string;
       restUrl: string;
@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-class HelloChildAdmin {
+class DoryoThemeAdmin {
   constructor() {
     this.init();
   }
@@ -26,7 +26,7 @@ class HelloChildAdmin {
   }
 
   private initializeAdminFeatures(): void {
-    console.log('Hello Child Admin initialized');
+    console.log('Doryo Theme Admin initialized');
     
     // Add admin-specific functionality here
     this.setupCustomMetaBoxes();
@@ -45,4 +45,4 @@ class HelloChildAdmin {
 }
 
 // Initialize admin functionality
-new HelloChildAdmin();
+new DoryoThemeAdmin();
