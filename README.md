@@ -7,7 +7,7 @@ Ein modernes WordPress-Entwicklungs-Setup mit Docker, Vite, TypeScript und SCSS.
 - **Docker-Stack**: PHP 8.2, MySQL 8.0, phpMyAdmin
 - **Modern Build-Tools**: Vite mit HMR, TypeScript, SCSS
 - **Code Quality**: ESLint, Prettier, Stylelint, PHP_CodeSniffer
-- **Theme**: Hello Elementor Child Theme
+- **Theme**: Doryo Theme (Hello Elementor Child Theme)
 - **Plugin Management**: Composer mit wpackagist.org
 - **CI/CD Ready**: Vorbereitete GitHub Actions
 
@@ -31,7 +31,7 @@ cd <project-name>
 composer install
 
 # Node.js Dependencies (im Theme-Ordner)
-cd wp-content/themes/hello-child
+cd wp-content/themes/doryo-theme
 npm install
 cd ../../..
 ```
@@ -44,11 +44,11 @@ docker-compose up -d
 ### 4. WordPress einrichten
 - Besuche http://localhost:8080
 - Folge der WordPress-Installation
-- Aktiviere das "Hello Child" Theme
+- Aktiviere das "Doryo Theme"
 
 ### 5. Entwicklungsserver starten (optional)
 ```bash
-cd wp-content/themes/hello-child
+cd wp-content/themes/doryo-theme
 npm run dev
 ```
 
@@ -67,7 +67,7 @@ project/
 ├── composer.json                   # PHP Dependencies
 ├── wp-content/
 │   └── themes/
-│       └── hello-child/            # Child Theme
+│       └── doryo-theme/            # Doryo Theme
 │           ├── package.json        # Node Dependencies
 │           ├── vite.config.js      # Vite-Konfiguration
 │           ├── tsconfig.json       # TypeScript-Config
@@ -83,7 +83,7 @@ project/
 
 ### Theme-Entwicklung
 ```bash
-cd wp-content/themes/hello-child
+cd wp-content/themes/doryo-theme
 
 # Entwicklungsserver mit HMR
 npm run dev
