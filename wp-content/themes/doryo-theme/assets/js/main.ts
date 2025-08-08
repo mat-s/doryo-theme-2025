@@ -29,9 +29,11 @@ class HelloChildApp {
     });
 
     // Initialize components that need jQuery
-    window.jQuery(document).ready(() => {
-      this.initializeJQueryComponents();
-    });
+    if (typeof window.jQuery !== 'undefined') {
+      window.jQuery(document).ready(() => {
+        this.initializeJQueryComponents();
+      });
+    }
   }
 
   private initializeComponents(): void {
