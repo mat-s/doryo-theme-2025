@@ -83,6 +83,7 @@ class DoryoTheme {
                 null,
                 true
             );
+            wp_script_add_data('doryo-theme-admin', 'type', 'module');
         } else {
             $admin_asset = $this->get_vite_asset('assets/js/admin.ts');
             if ($admin_asset) {
@@ -108,7 +109,8 @@ class DoryoTheme {
             null,
             false // Im Head laden
         );
-        
+        wp_script_add_data('vite-hmr-client', 'type', 'module');
+
         // 2. SCSS als JavaScript-Modul laden (wichtig für HMR!)
         wp_enqueue_script(
             'doryo-theme-style-hmr',
@@ -117,7 +119,8 @@ class DoryoTheme {
             null,
             false // Im Head laden
         );
-        
+        wp_script_add_data('doryo-theme-style-hmr', 'type', 'module');
+
         // 3. Main JS Entry Point
         wp_enqueue_script(
             'doryo-theme-main-hmr',
@@ -126,6 +129,7 @@ class DoryoTheme {
             null,
             true
         );
+        wp_script_add_data('doryo-theme-main-hmr', 'type', 'module');
         
         // Debug-Info
         error_log('Doryo Theme: HMR assets loaded:');
