@@ -8,7 +8,7 @@ declare global {
     jQuery: JQueryStatic;
     $: JQueryStatic;
     wp: any;
-    helloChild: {
+    doryoTheme: {
       ajaxUrl: string;
       nonce: string;
       restUrl: string;
@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-class HelloChildApp {
+class DoryoThemeApp {
   constructor() {
     this.init();
   }
@@ -35,7 +35,7 @@ class HelloChildApp {
   }
 
   private initializeComponents(): void {
-    console.log('Hello Child Theme initialized');
+    console.log('Doryo Theme initialized');
     
     // Initialize theme components
     initializeTheme();
@@ -61,4 +61,4 @@ class HelloChildApp {
 }
 
 // Initialize the application
-new HelloChildApp();
+new DoryoThemeApp();
