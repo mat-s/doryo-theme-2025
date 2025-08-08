@@ -3,11 +3,11 @@ FROM --platform=linux/arm64 node:18-alpine
 WORKDIR /app
 
 # Install dependencies
-COPY wp-content/themes/hello-child/package*.json ./
+COPY wp-content/themes/doryo-theme/package*.json ./
 RUN npm ci
 
 # Copy source code
-COPY wp-content/themes/hello-child/ .
+COPY wp-content/themes/doryo-theme/ .
 
 # Expose port
 EXPOSE 3000
