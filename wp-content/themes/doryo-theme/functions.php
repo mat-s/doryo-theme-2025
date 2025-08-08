@@ -1,11 +1,12 @@
 <?php
 /**
- * Theme Name: Hello Child
- * Description: Child theme for Hello Elementor with modern development stack
+ * Theme Name: Doryo Theme
+ * Description: Modern custom theme for Doryo website, built on Elementor Hello-Theme with TypeScript, SCSS and Vite
  * Template: hello-elementor
  * Version: 1.0.0
- * Author: Your Name
- * Text Domain: hello-child
+ * Author: Matthias Seidel
+ * Author URI: https://doryo.de
+ * Text Domain: doryo-theme
  */
 
 // Prevent direct access
@@ -13,7 +14,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class HelloChild {
+class DoryoTheme {
     private static $instance = null;
     
     public static function get_instance() {
@@ -42,7 +43,7 @@ class HelloChild {
         ]);
         
         // Load text domain
-        load_child_theme_textdomain('hello-child', get_stylesheet_directory() . '/languages');
+        load_child_theme_textdomain('doryo-theme', get_stylesheet_directory() . '/languages');
     }
     
     public function enqueue_assets() {
@@ -66,7 +67,7 @@ class HelloChild {
     public function enqueue_admin_assets() {
         if (defined('WP_DEBUG') && WP_DEBUG && $this->is_vite_dev_server_running()) {
             wp_enqueue_script(
-                'hello-child-admin',
+                'doryo-theme-admin',
                 'http://localhost:3000/assets/js/admin.ts',
                 ['jquery'],
                 null,
@@ -76,7 +77,7 @@ class HelloChild {
             $admin_asset = $this->get_vite_asset('assets/js/admin.ts');
             if ($admin_asset) {
                 wp_enqueue_script(
-                    'hello-child-admin',
+                    'doryo-theme-admin',
                     get_stylesheet_directory_uri() . '/dist/' . $admin_asset['file'],
                     ['jquery'],
                     null,
@@ -99,13 +100,13 @@ class HelloChild {
         
         // Main TypeScript entry point
         wp_enqueue_script(
-            'hello-child-main',
+            'doryo-theme-main',
             'http://localhost:3000/assets/js/main.ts',
             [],
             null,
             true
         );
-        wp_script_add_data('hello-child-main', 'type', 'module');
+        wp_script_add_data('doryo-theme-main', 'type', 'module');
     }
     
     private function enqueue_vite_build_assets() {
@@ -114,7 +115,7 @@ class HelloChild {
         
         if ($main_css) {
             wp_enqueue_style(
-                'hello-child-style',
+                'doryo-theme-style',
                 get_stylesheet_directory_uri() . '/dist/' . $main_css['file'],
                 ['hello-elementor-style'],
                 null
@@ -123,7 +124,7 @@ class HelloChild {
         
         if ($main_js) {
             wp_enqueue_script(
-                'hello-child-main',
+                'doryo-theme-main',
                 get_stylesheet_directory_uri() . '/dist/' . $main_js['file'],
                 ['jquery'],
                 null,
@@ -131,9 +132,9 @@ class HelloChild {
             );
             
             // Localize script with WordPress data
-            wp_localize_script('hello-child-main', 'helloChild', [
+            wp_localize_script('doryo-theme-main', 'doryoTheme', [
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('hello_child_nonce'),
+                'nonce' => wp_create_nonce('doryo_theme_nonce'),
                 'restUrl' => rest_url('wp/v2/'),
                 'restNonce' => wp_create_nonce('wp_rest'),
             ]);
@@ -169,4 +170,4 @@ class HelloChild {
 }
 
 // Initialize the theme
-HelloChild::get_instance();
+DoryoTheme::get_instance();

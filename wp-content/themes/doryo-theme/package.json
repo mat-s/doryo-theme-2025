@@ -1,7 +1,7 @@
 {
-  "name": "hello-child-theme",
+  "name": "doryo-theme",
   "version": "1.0.0",
-  "description": "Child theme for Hello Elementor with Vite build system",
+  "description": "Modern custom theme for Doryo website, built on Elementor Hello-Theme with TypeScript, SCSS and Vite",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",

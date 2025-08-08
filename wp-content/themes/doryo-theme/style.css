@@ -1,0 +1,12 @@
+/*
+Theme Name: Doryo Theme
+Description: Modern custom theme for Doryo website, built on Elementor Hello-Theme with TypeScript, SCSS and Vite
+Template: hello-elementor
+Version: 1.0.0
+Author: Matthias Seidel
+Author URI: https://doryo.de
+Text Domain: doryo-theme
+Tags: elementor, child-theme, modern, vite, typescript, scss
+*/
+
+/* Main styles will be loaded via Vite */
