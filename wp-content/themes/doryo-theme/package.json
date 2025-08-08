@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
+    "dev:hmr": "vite --host 0.0.0.0 --port 3000 --mode development",
     "build": "vite build",
+    "build:watch": "vite build --watch --mode development",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview",
     "lint:js": "eslint assets/js/**/*.{js,ts}",
     "lint:css": "stylelint 'assets/scss/**/*.scss'",

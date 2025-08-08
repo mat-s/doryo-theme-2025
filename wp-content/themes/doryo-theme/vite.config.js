@@ -8,8 +8,9 @@ export default defineConfig({
     port: 3000,
     hmr: {
       host: 'localhost',
-      port: 3000
+      port: 3000,
     },
+    cors: true,
     watch: {
       usePolling: true,
       interval: 1000
@@ -20,6 +21,7 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     manifest: true,
+    watch: process.env.NODE_ENV === 'development' ? {} : null,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'assets/js/main.ts'),
@@ -38,6 +40,19 @@ export default defineConfig({
       }
     }
   },
+
+  // plugins: [
+  //   {
+  //     name: 'wordpress-hmr',
+  //     handleHotUpdate({ file, server }) {
+  //       if (file.includes('.scss')) {
+  //         server.ws.send({
+  //           type: 'full-reload'
+  //         });
+  //       }
+  //     }
+  //   }
+  // ],
 
   css: {
     preprocessorOptions: {

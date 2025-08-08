@@ -47,6 +47,16 @@ class DoryoTheme {
     }
     
     public function enqueue_assets() {
+        // Debug: WordPress-Umgebung prüfen
+        $wp_debug = defined('WP_DEBUG') && WP_DEBUG;
+        $vite_running = $this->is_vite_dev_server_running();
+        
+        error_log('=== DORYO THEME ASSET LOADING ===');
+        error_log('WP_DEBUG defined: ' . (defined('WP_DEBUG') ? 'YES' : 'NO'));
+        error_log('WP_DEBUG value: ' . ($wp_debug ? 'TRUE' : 'FALSE'));
+        error_log('Vite dev server: ' . ($vite_running ? 'RUNNING' : 'NOT RUNNING'));
+        error_log('Mode: ' . ($wp_debug && $vite_running ? 'DEVELOPMENT' : 'PRODUCTION'));
+        
         // Enqueue parent theme styles
         wp_enqueue_style(
             'hello-elementor-style',
@@ -55,11 +65,11 @@ class DoryoTheme {
             wp_get_theme()->get('Version')
         );
         
-        if (defined('WP_DEBUG') && WP_DEBUG && $this->is_vite_dev_server_running()) {
-            // Development mode with Vite HMR
+        if ($wp_debug && $vite_running) {
+            error_log('Loading DEVELOPMENT assets');
             $this->enqueue_vite_dev_assets();
         } else {
-            // Production mode with built assets
+            error_log('Loading PRODUCTION assets');
             $this->enqueue_vite_build_assets();
         }
     }
@@ -88,46 +98,68 @@ class DoryoTheme {
     }
     
     private function enqueue_vite_dev_assets() {
-        // Vite client for HMR
+        $vite_server = 'http://localhost:3000';
+        
+        // 1. Vite HMR Client laden
         wp_enqueue_script(
-            'vite-client',
-            'http://localhost:3000/@vite/client',
+            'vite-hmr-client',
+            $vite_server . '/@vite/client',
             [],
             null,
-            false
+            false // Im Head laden
         );
-        wp_script_add_data('vite-client', 'type', 'module');
         
-        // Main TypeScript entry point
+        // 2. SCSS als JavaScript-Modul laden (wichtig für HMR!)
         wp_enqueue_script(
-            'doryo-theme-main',
-            'http://localhost:3000/assets/js/main.ts',
-            [],
+            'doryo-theme-style-hmr',
+            $vite_server . '/assets/scss/style.scss',
+            ['vite-hmr-client'],
+            null,
+            false // Im Head laden
+        );
+        
+        // 3. Main JS Entry Point
+        wp_enqueue_script(
+            'doryo-theme-main-hmr',
+            $vite_server . '/assets/js/main.ts',
+            ['vite-hmr-client'],
             null,
             true
         );
-        wp_script_add_data('doryo-theme-main', 'type', 'module');
+        
+        // Debug-Info
+        error_log('Doryo Theme: HMR assets loaded:');
+        error_log('- Vite Client: ' . $vite_server . '/@vite/client');
+        error_log('- SCSS Entry: ' . $vite_server . '/assets/scss/style.scss');
+        error_log('- JS Entry: ' . $vite_server . '/assets/js/main.ts');
     }
     
     private function enqueue_vite_build_assets() {
-        $main_js = $this->get_vite_asset('assets/js/main.ts');
-        $main_css = $this->get_vite_asset('assets/scss/style.scss');
+        $style_asset = $this->get_vite_asset('assets/scss/style.scss');
+        $main_asset = $this->get_vite_asset('assets/js/main.ts');
         
-        if ($main_css) {
+        // Debug-Output
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('Doryo Theme: Production mode');
+            error_log('Style asset: ' . print_r($style_asset, true));
+            error_log('Main asset: ' . print_r($main_asset, true));
+        }
+        
+        if ($style_asset) {
             wp_enqueue_style(
                 'doryo-theme-style',
-                get_stylesheet_directory_uri() . '/dist/' . $main_css['file'],
+                get_stylesheet_directory_uri() . '/dist/' . $style_asset['file'],
                 ['hello-elementor-style'],
-                null
+                wp_get_theme()->get('Version')
             );
         }
         
-        if ($main_js) {
+        if ($main_asset) {
             wp_enqueue_script(
                 'doryo-theme-main',
-                get_stylesheet_directory_uri() . '/dist/' . $main_js['file'],
+                get_stylesheet_directory_uri() . '/dist/' . $main_asset['file'],
                 ['jquery'],
-                null,
+                wp_get_theme()->get('Version'),
                 true
             );
             
@@ -142,11 +174,7 @@ class DoryoTheme {
     }
     
     private function get_vite_asset($entry) {
-        $manifest_path = get_stylesheet_directory() . '/dist/manifest.json';
-        
-        if (!file_exists($manifest_path)) {
-            return false;
-        }
+        $manifest_path = get_stylesheet_directory() . '/dist/.vite/manifest.json';
         
         $manifest = json_decode(file_get_contents($manifest_path), true);
         
@@ -154,18 +182,34 @@ class DoryoTheme {
     }
     
     private function is_vite_dev_server_running() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:3000');
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Container-zu-Container URLs testen
+        $vite_urls = [
+            'http://vite:3000/@vite/client',      // Container-intern
+            'http://localhost:3000/@vite/client'  // Fallback
+        ];
         
-        $result = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        foreach ($vite_urls as $vite_server) {
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => 2,
+                    'method' => 'GET',
+                    'ignore_errors' => true
+                ]
+            ]);
+            
+            $result = @file_get_contents($vite_server, false, $context);
+            
+            // Debug-Log hinzufügen
+            error_log('Doryo Theme: Testing ' . $vite_server . ' - ' . ($result !== false ? 'SUCCESS' : 'FAILED'));
+            
+            if ($result !== false) {
+                error_log('Doryo Theme: Vite dev server found at ' . $vite_server);
+                return true;
+            }
+        }
         
-        return $http_code === 200;
+        error_log('Doryo Theme: No Vite dev server found - using production mode');
+        return false;
     }
 }
 

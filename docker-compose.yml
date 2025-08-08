@@ -10,7 +10,7 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress123
       WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DEBUG: 1
+      WORDPRESS_DEBUG: 'true'
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_DEBUG_LOG', true);
         define('WP_DEBUG_DISPLAY', false);
@@ -70,12 +70,17 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./wp-content/themes/doryo-theme:/app
-      - /app/node_modules
+      # Volume-Mounting für Live-Updates!
+      - ./wp-content/themes/doryo-theme:/app:cached
+      - /app/node_modules  # Exclude node_modules
     environment:
-      - CHOKIDAR_USEPOLLING=true
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true  # Für besseres File-Watching
+      - VITE_HMR_HOST=localhost
+      - VITE_HMR_PORT=3000
     networks:
       - wordpress-network
+    restart: unless-stopped
 
 volumes:
   db_data:

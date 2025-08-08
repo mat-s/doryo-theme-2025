@@ -1,4 +1,18 @@
+// SCSS importieren für HMR
 import '../scss/style.scss';
+
+// WordPress DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Doryo Theme loaded');
+});
+
+// Vite HMR
+if (import.meta.hot) {
+    import.meta.hot.accept(['../scss/style.scss'], () => {
+        console.log('CSS hot reloaded!');
+    });
+}
+
 import { initializeTheme } from './modules/theme';
 import { setupNavigation } from './modules/navigation';
 import { initializeElementor } from './modules/elementor';

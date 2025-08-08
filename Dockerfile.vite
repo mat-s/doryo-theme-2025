@@ -2,15 +2,18 @@ FROM --platform=linux/arm64 node:18-alpine
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies first (for better caching)
 COPY wp-content/themes/doryo-theme/package*.json ./
 RUN npm ci
 
-# Copy source code
-COPY wp-content/themes/doryo-theme/ .
+# Install additional tools for file watching
+RUN apk add --no-cache inotify-tools
 
 # Expose port
 EXPOSE 3000
 
-# Start development server
-CMD ["npm", "run", "dev"]
+# Create dist directory
+RUN mkdir -p dist
+
+# Start development server with file watching
+CMD ["sh", "-c", "npm run dev & npm run build:watch & wait"]
