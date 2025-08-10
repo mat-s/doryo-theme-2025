@@ -1,0 +1,134 @@
+const gulp = require('gulp');
+const sass = require('gulp-sass')(require('sass'));
+const livereload = require('gulp-livereload');
+const connect = require('gulp-connect');
+const header = require('gulp-header');
+const cssnano = require('gulp-cssnano');
+const rename = require('gulp-rename');
+const sourcemaps = require('gulp-sourcemaps');
+
+// WordPress Theme Header für CSS
+const themeHeader = `/*
+Theme Name: Doryo Theme
+Description: Modern custom theme for Doryo website, built on Elementor Hello-Theme with SCSS
+Author: Matthias Seidel
+Version: 1.0.0
+Template: hello-elementor
+Text Domain: doryo-theme
+*/
+
+`;
+
+// Pfade definieren
+const paths = {
+  scss: {
+    src: 'wp-content/themes/doryo-theme/assets/scss/**/*.scss',
+    main: 'wp-content/themes/doryo-theme/assets/scss/style.scss',
+    dest: 'wp-content/themes/doryo-theme/dist/'
+  },
+  js: {
+    src: 'wp-content/themes/doryo-theme/assets/js/**/*.js',
+    dest: 'wp-content/themes/doryo-theme/dist/'
+  },
+  php: {
+    src: 'wp-content/themes/doryo-theme/**/*.php'
+  }
+};
+
+// SCSS Kompilierung mit WordPress Header
+function compileSCSS() {
+  return gulp.src(paths.scss.main)
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'expanded',
+      includePaths: ['node_modules']
+    }).on('error', sass.logError))
+    .pipe(header(themeHeader))
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(paths.scss.dest))
+    .pipe(connect.reload())
+    .pipe(livereload());
+}
+
+// SCSS Kompilierung für Production (minified)
+function compileSCSSProd() {
+  return gulp.src(paths.scss.main)
+    .pipe(sass({
+      outputStyle: 'compressed',
+      includePaths: ['node_modules']
+    }).on('error', sass.logError))
+    .pipe(cssnano({
+      discardComments: {
+        removeAll: false // WordPress Header beibehalten
+      }
+    }))
+    .pipe(header(themeHeader))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest(paths.scss.dest));
+}
+
+// JavaScript kopieren
+function copyJS() {
+  return gulp.src(paths.js.src)
+    .pipe(gulp.dest(paths.js.dest))
+    .pipe(connect.reload())
+    .pipe(livereload());
+}
+
+// LiveReload Server starten
+function startServer(done) {
+  connect.server({
+    root: 'wp-content/themes/doryo-theme',
+    livereload: true,
+    port: 3001
+  });
+  livereload.listen();
+  console.log('🚀 LiveReload Server läuft auf Port 3001');
+  done();
+}
+
+// Watch Files für Änderungen
+function watchFiles() {
+  console.log('👀 Watching SCSS and JS files...');
+  gulp.watch(paths.scss.src, compileSCSS);
+  gulp.watch(paths.js.src, copyJS);
+  gulp.watch(paths.php.src).on('change', () => {
+    console.log('PHP file changed - triggering reload...');
+    connect.reload();
+    livereload.reload();
+  });
+}
+
+// Task Definitionen
+gulp.task('scss', compileSCSS);
+gulp.task('scss:prod', compileSCSSProd);
+gulp.task('js', copyJS);
+gulp.task('server', startServer);
+gulp.task('watch', gulp.series(startServer, watchFiles));
+
+// Build Tasks
+gulp.task('build', gulp.series(
+  gulp.parallel(compileSCSS, copyJS)
+));
+
+gulp.task('build:prod', gulp.series(
+  gulp.parallel(compileSCSSProd, copyJS)
+));
+
+// Development Task (default)
+gulp.task('default', gulp.series(
+  gulp.parallel(compileSCSS, copyJS),
+  startServer,
+  watchFiles
+));
+
+// Einzelne Tasks für Testing
+gulp.task('test:scss', () => {
+  console.log('🧪 Testing SCSS compilation...');
+  return compileSCSS();
+});
+
+gulp.task('test:build', () => {
+  console.log('🧪 Testing complete build...');
+  return gulp.series('build')();
+});
