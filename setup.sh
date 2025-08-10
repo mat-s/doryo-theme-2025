@@ -31,7 +31,7 @@ composer install
 
 # Install Node.js dependencies
 echo "📦 Installiere Node.js-Abhängigkeiten..."
-cd wp-content/themes/hello-child
+cd wp-content/themes/doryo-theme
 npm install
 cd ../../..
 
@@ -60,12 +60,11 @@ echo ""
 echo "🌐 URLs:"
 echo "   WordPress:    http://localhost:8080"
 echo "   phpMyAdmin:   http://localhost:8081"
-echo "   Vite Dev:     http://localhost:3000"
 echo ""
 echo "📚 Nächste Schritte:"
 echo "   1. Öffne http://localhost:8080"
 echo "   2. Folge der WordPress-Installation"
-echo "   3. Aktiviere das 'Hello Child' Theme"
-echo "   4. Für Entwicklung: cd wp-content/themes/hello-child && npm run dev"
+echo "   3. Aktiviere das 'Doryo Theme' Theme"
+echo "   4. Für Entwicklung: cd wp-content/themes/doryo-theme && npm run build"
 echo ""
-echo "📖 Weitere Informationen in README.md und SETUP.md"
+echo "📖 Weitere Informationen in README.md"

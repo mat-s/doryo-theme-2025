@@ -5,21 +5,8 @@ html {
 
 body {
   min-height: 100%;
-  background-color: red !important; /* Grün für bessere Sichtbarkeit */
-  color: black !important;
-  font-size: 20px;
-}
-
-body::before {
-  content: "HMR TEST - Doryo Theme Active!";
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: red;
-  color: white;
-  padding: 10px;
-  z-index: 9999;
-  font-weight: bold;
+  color: black;
+  font-size: 16px;
 }
 
 // Main content wrapper

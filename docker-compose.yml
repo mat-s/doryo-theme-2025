@@ -62,26 +62,6 @@ services:
     networks:
       - wordpress-network
 
-  vite:
-    build:
-      context: .
-      dockerfile: Dockerfile.vite
-    container_name: wp_vite
-    ports:
-      - "3000:3000"
-    volumes:
-      # Volume-Mounting für Live-Updates!
-      - ./wp-content/themes/doryo-theme:/app:cached
-      - /app/node_modules  # Exclude node_modules
-    environment:
-      - NODE_ENV=development
-      - CHOKIDAR_USEPOLLING=true  # Für besseres File-Watching
-      - VITE_HMR_HOST=localhost
-      - VITE_HMR_PORT=3000
-    networks:
-      - wordpress-network
-    restart: unless-stopped
-
 volumes:
   db_data:
 

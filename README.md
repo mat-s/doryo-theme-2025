@@ -1,15 +1,16 @@
-# WordPress Boilerplate
+# WordPress Doryo Theme
 
-Ein modernes WordPress-Entwicklungs-Setup mit Docker, Vite, TypeScript und SCSS.
+Ein modernes WordPress-Theme-Setup mit Docker, SCSS und Vanilla JavaScript.
 
 ## 🚀 Features
 
 - **Docker-Stack**: PHP 8.2, MySQL 8.0, phpMyAdmin
-- **Modern Build-Tools**: Vite mit HMR, TypeScript, SCSS
-- **Code Quality**: ESLint, Prettier, Stylelint, PHP_CodeSniffer
+- **Modern CSS**: SCSS mit 7-1 Architektur
+- **Vanilla JavaScript**: Keine komplexen Build-Tools
+- **Code Quality**: Stylelint, Prettier, PHP_CodeSniffer
 - **Theme**: Doryo Theme (Hello Elementor Child Theme)
 - **Plugin Management**: Composer mit wpackagist.org
-- **CI/CD Ready**: Vorbereitete GitHub Actions
+- **Elementor Integration**: Custom Hero Unit Widget
 
 ## 📋 Voraussetzungen
 
@@ -46,36 +47,35 @@ docker-compose up -d
 - Folge der WordPress-Installation
 - Aktiviere das "Doryo Theme"
 
-### 5. Entwicklungsserver starten (optional)
+### 5. Assets builden
 ```bash
 cd wp-content/themes/doryo-theme
-npm run dev
+npm run build
 ```
 
 ## 🌐 URLs
 
 - **WordPress**: http://localhost:8080
 - **phpMyAdmin**: http://localhost:8081
-- **Vite Dev Server**: http://localhost:3000 (HMR für Assets)
 
 ## 📁 Projektstruktur
 
 ```
 project/
 ├── docker-compose.yml              # Docker-Services
-├── Dockerfile.vite                 # Vite Container
 ├── composer.json                   # PHP Dependencies
 ├── wp-content/
 │   └── themes/
 │       └── doryo-theme/            # Doryo Theme
 │           ├── package.json        # Node Dependencies
-│           ├── vite.config.js      # Vite-Konfiguration
-│           ├── tsconfig.json       # TypeScript-Config
 │           ├── functions.php       # Theme-Funktionen
+│           ├── Widgets/            # Custom Elementor Widgets
+│           │   ├── WidgetManager.php
+│           │   └── HeroUnitWidget.php
 │           ├── assets/
-│           │   ├── js/             # TypeScript-Dateien
-│           │   └── scss/           # SCSS-Dateien
-│           └── dist/               # Kompilierte Assets
+│           │   ├── js/             # JavaScript-Dateien
+│           │   └── scss/           # SCSS-Dateien (7-1 Architektur)
+│           └── dist/               # Kompilierte Assets (CSS + JS)
 └── uploads.ini                     # PHP-Konfiguration
 ```
 
@@ -85,18 +85,27 @@ project/
 ```bash
 cd wp-content/themes/doryo-theme
 
-# Entwicklungsserver mit HMR
-npm run dev
-
 # Production Build
 npm run build
 
+# Watch-Modus für Entwicklung
+npm run watch
+
+# Nur CSS builden
+npm run build:css
+
+# Nur JavaScript builden  
+npm run build:js
+
+# CSS Watch-Modus
+npm run watch:css
+
+# JavaScript Watch-Modus
+npm run watch:js
+
 # Code-Qualität
-npm run lint:js          # JavaScript/TypeScript Linting
 npm run lint:css         # SCSS Linting
-npm run format:js        # JavaScript/TypeScript Formatierung
 npm run format:css       # SCSS Formatierung
-npm run type-check       # TypeScript Type Checking
 ```
 
 ### PHP-Entwicklung
@@ -132,16 +141,29 @@ composer run test
 ## 🎨 Asset-Workflow
 
 ### Entwicklung
-1. Vite Dev Server läuft auf Port 3000
-2. Assets werden live vom Dev Server geladen
-3. HMR für sofortige Änderungen
-4. Source Maps für Debugging
+1. `npm run watch` für automatisches Rebuilding
+2. SCSS wird zu komprimiertem CSS kompiliert
+3. JavaScript wird direkt kopiert
+4. Dateien werden in `dist/` Ordner erstellt
 
 ### Production
 1. `npm run build` erstellt optimierte Assets
-2. Assets werden mit Hashes versioniert
-3. Manifest.json für Asset-Mapping
-4. CSS wird extrahiert und optimiert
+2. CSS wird komprimiert und mit Source Maps
+3. JavaScript wird in `dist/` kopiert
+4. WordPress lädt Assets aus `dist/` Ordner
+
+## 🎨 SCSS-Architektur (7-1 Pattern)
+
+```
+assets/scss/
+├── abstracts/          # Variablen, Functions, Mixins
+├── vendors/           # Third-party CSS (Normalize.css)
+├── base/              # Reset, Typography, etc.
+├── layout/            # Header, Footer, Grid, etc.
+├── components/        # Buttons, Forms, etc. 
+├── pages/             # Page-spezifische Styles
+└── themes/            # Theme-spezifische Overrides
+```
 
 ## 🗃 Datenbank
 
@@ -162,16 +184,26 @@ docker exec -i wp_db mysql -u root -prootpassword123 wordpress < backup.sql
 
 ## 🚀 Deployment
 
-### GitHub Actions (vorbereitet)
-1. Erstelle `.github/workflows/deploy.yml`
-2. Konfiguriere Server-Credentials als Secrets
-3. Push zu main Branch triggert Deployment
-
 ### Manuelles Deployment
 1. `npm run build` ausführen
 2. `composer install --no-dev --optimize-autoloader`
 3. Files zum Server übertragen
 4. Datenbank synchronisieren
+
+## 🎛 Custom Elementor Widgets
+
+### Hero Unit Widget
+- **Titel & Untertitel** mit individueller Formatierung
+- **Call-to-Action Button** mit Icon-Unterstützung
+- **Hero-Bild** mit Responsive-Unterstützung
+- **Flag/Label System** für Badges
+- **Blob-Hintergrund** mit konfigurierbaren Farben
+
+### Widget-Verwendung
+1. Im Elementor-Editor verfügbar unter "Doryo Widgets"
+2. Drag & Drop auf die Seite
+3. Konfiguration über das Elementor-Panel
+4. Live-Vorschau während der Bearbeitung
 
 ## 🔒 Sicherheit
 
@@ -190,13 +222,13 @@ docker exec -i wp_db mysql -u root -prootpassword123 wordpress < backup.sql
 
 ### Theme-Anpassungen
 - SCSS-Variablen in `assets/scss/abstracts/_variables.scss`
-- TypeScript-Module in `assets/js/modules/`
+- JavaScript-Module in `assets/js/main.js`
 - PHP-Funktionen in `functions.php`
+- Custom Widgets in `Widgets/` Ordner
 
 ### Docker-Anpassungen
 - PHP-Konfiguration in `uploads.ini`
 - MySQL-Konfiguration in `docker-compose.yml`
-- Vite-Konfiguration in `Dockerfile.vite`
 
 ## 📝 Lizenz
 
