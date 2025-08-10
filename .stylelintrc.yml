@@ -21,3 +21,4 @@ rules:
 ignoreFiles:
   - 'dist/**/*'
   - 'node_modules/**/*'
+  - 'wp-content/themes/doryo-theme/dist/**/*'
